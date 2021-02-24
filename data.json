@@ -1,0 +1,24 @@
+{
+    "features": [
+        {
+            "id": 1,
+            "name": "Rujal",
+            "address": "Kumarigal"
+        },
+        {
+            "id": 2,
+            "name": "Ujjwal",
+            "address": "Chabahil"
+        },
+        {
+            "id": 3,
+            "name": "Suman",
+            "address": "Kupondole"
+        },
+        {
+            "id": 4,
+            "name": "Subash",
+            "address": "Gaurighat"
+        }
+    ]
+}

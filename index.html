@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data</title>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: center; margin: 13px;">
+        <form id="myForm">
+            <input type="text" placeholder="Name" name="name" id="name">
+            <input type="text" placeholder="Address" name="address" id="address">
+            <button type="submit" onclick="submitData(event)">Submit</button>
+        </form>
+    </div>
+    <div id="demo"></div>
+    <script src="index.js"></script>
+    <style>
+        table,
+        td,
+        th {
+            border: 1px solid rgb(122, 96, 96);
+        }
+
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+</body>
+
+</html>
