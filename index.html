@@ -5,16 +5,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>JSON Data</title>
 </head>
 
 <body>
-    <div style="display: flex; justify-content: center; margin: 13px;">
+    <div class="data" style="display: flex; justify-content: center; margin: 13px;">
         <form id="myForm">
             <input type="text" placeholder="Name" name="name" id="name">
             <input type="text" placeholder="Address" name="address" id="address">
             <button type="submit" onclick="submitData(event)">Submit</button>
         </form>
+        <button onclick="deleteAll(event)" style="margin-left: 12px;">DeleteAll</button>
+    </div>
+    <div id="modal">
+        <div id="modal-content">
+            <div id="header">
+                <h1>Are You Sure ?</h1>
+            </div>
+            <div id="buttons">
+                <button onclick="confirmDelete(event)">Confirm</button>
+                <button onclick="cancelDelete(event)">Cancel</button>
+            </div>
+        </div>
     </div>
     <div id="demo"></div>
     <script src="index.js"></script>
@@ -35,6 +48,7 @@
             text-align: center;
         }
     </style>
+
 </body>
 
 </html>
