@@ -1,3 +1,4 @@
+const modal = document.getElementById('modal')
 
 class Datas {
     constructor() {
@@ -8,10 +9,9 @@ class Datas {
     }
 
     fetchData = async () => {
-        let data = []
         if (!JSON.parse(localStorage.getItem('data'))) {
             const fetching = await fetch('./data.json')
-            data = await fetching.json()
+            const data = await fetching.json()
             localStorage.setItem('data', JSON.stringify(data.features))
         }
         this.data = JSON.parse(localStorage.getItem('data'))
@@ -65,13 +65,45 @@ class Datas {
         this.id = id
     }
 
-    deleteData = (id) => {
-        const totalData = JSON.parse(localStorage.getItem('data'))
-        const index = totalData.findIndex(x => x.id === id)
-        totalData.splice(index, 1)
-        localStorage.setItem('data', JSON.stringify(totalData))
+    deletePermission = (id) => {
+        this.id = id
+        this.openModal()
+    }
+
+    deleteAll = () => {
+        this.id = null
+        this.openModal()
+    }
+
+    openModal = () => {
+        modal.classList.remove('remove');
+        modal.classList.add('show')
+        modal.firstElementChild.classList.add('animate')
+        modal.firstElementChild.classList.remove('deanimate')
+    }
+
+    confirmDelete = () => {
+        let totalData = JSON.parse(localStorage.getItem('data'))
         const table = document.getElementsByTagName('table')[0]
-        table.removeChild(document.getElementById(id))
+
+        if (!this.id) {
+            localStorage.setItem('data', JSON.stringify([]))
+            while (table.childNodes[1]) {
+                table.removeChild(table.childNodes[1])
+            }
+            this.data = []
+        } else {
+            const index = totalData.findIndex(x => x.id === this.id)
+            totalData.splice(index, 1)
+            localStorage.setItem('data', JSON.stringify(totalData))
+            table.removeChild(document.getElementById(this.id))
+        }
+        this.data = totalData
+        this.id = null
+    }
+
+    cancelDelete = () => {
+        this.id = null
     }
 
     updateData = (name, address) => {
@@ -84,6 +116,7 @@ class Datas {
         table.replaceChild(tr, document.getElementById(totalData[index].id))
         this.editMode = false
         this.id = null
+        this.data = totalData
     }
 
     getTableRow = (data) => {
@@ -104,14 +137,14 @@ class Datas {
 
         const deleteButton = document.createElement('button')
         deleteButton.innerText = "Delete"
-        deleteButton.addEventListener("click", () => this.deleteData(data[0]))
+        deleteButton.addEventListener("click", () => this.deletePermission(data[0]))
         tdAction.appendChild(deleteButton)
         tr.appendChild(tdAction)
         return tr
     }
 
     getId = () => {
-        return this.data.reduce((a, c) => a > c.id ? a : c.id) + 1
+        return this.data.reduce((a, c) => a > c.id ? a : c.id, 0) + 1
     }
 }
 
@@ -121,7 +154,7 @@ function submitData(event) {
     event.preventDefault()
     let name = document.getElementById('name').value
     let address = document.getElementById('address').value
-    if (datas.editMode === false) {
+    if (!datas.editMode) {
         datas.addData(name, address)
     } else {
         datas.updateData(name, address)
@@ -129,9 +162,39 @@ function submitData(event) {
     document.getElementById('myForm').reset()
 }
 
+function confirmDelete(e) {
+    e.preventDefault()
+    setTimeout(() => {
+        datas.confirmDelete()
+    }, 500)
+    removeModal()
+}
 
+function cancelDelete(e) {
+    e.preventDefault()
+    removeModal()
+    datas.cancelDelete()
+}
 
+function deleteAll(e) {
+    e.preventDefault()
+    datas.deleteAll()
+}
 
+window.onclick = function (e) {
+    if (e.target === modal) {
+        removeModal()
+        datas.id = null
+    }
+}
 
+function removeModal() {
+    setTimeout(() => {
+        modal.classList.add('remove')
+        modal.classList.remove('show')
+    }, 500)
+    modal.firstElementChild.classList.add('deanimate')
+    modal.firstElementChild.classList.remove('animate')
+}
 
-
+modal.classList.add('remove')
